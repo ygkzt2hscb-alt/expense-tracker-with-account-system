@@ -27,29 +27,3 @@ The program stores data in JSON format:
     ]
   }
 }
-
-## How To Run
-
-python expense_tracker.py
-
-## Example Session
-
---- Expense Tracker ---
-
-1. Add a transaction
-2. View transaction history
-3. View monthly summary
-4. Log out
-
-Choose an option: 1
-How much was spent on this transaction? $42.50
-Category: Groceries
-Expense added.
-
---- Expense Tracker ---
-
-Choose an option: 3
-Which month and year are you looking for? (Format: YYYY-MM)
-2026-05
-
-Groceries: $42.50
