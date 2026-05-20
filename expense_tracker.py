@@ -123,25 +123,35 @@ def view_transactions(username):
         for i, transaction in enumerate(transactions):
             print(f"{i+1}. {transaction['date']} | {transaction['category']} | ${transaction['amount']}")
         
+def calculate_monthly_summary(transactions, year_month):
+    totals = {}
+
+    for transaction in transactions:
+        transaction_month = transaction["date"][:7]
+
+        if transaction_month == year_month:
+            category = transaction["category"]
+            amount = transaction["amount"]
+
+            if category not in totals:
+                totals[category] = 0
+
+            totals[category] += amount
+
+    return totals
+
 def monthly_summary(username):
-    while True:
-        user_date = input("Which month and year are you looking for?"
-                          "\nFormat: YYYY-MM"
-                          )
-        totals = {}
-        for transaction in account[username]["transactions"]:
-            transaction_month = transaction["date"][:7]
-            if transaction_month == user_date:
-                category = transaction["category"]
-                amount = transaction["amount"]
-                if category not in totals:
-                    totals[category] = 0
-                totals[category] += amount
-        if len(totals) == 0:
-            print("No transactions found within this month.")
-        else:
-            for category, total in totals.items():
-                print(f"{category}: ${total}")
+    user_date = input("Which month and year are you looking for?"
+                      "\nFormat: YYYY-MM")
+
+    transactions = account[username]["transactions"]
+    totals = calculate_monthly_summary(transactions, user_date)
+
+    if len(totals) == 0:
+        print("No transactions found within this month.")
+    else:
+        for category, total in totals.items():
+            print(f"{category}: ${total}")
 
 def menu(username):
     while True:
@@ -163,9 +173,9 @@ def menu(username):
         else:
             print("Please choose an option from 1-4.")
 
-
-if not_got_account():
-    create_account()
-logged_in_user = login()
-menu(logged_in_user)
+if __name__ == "__main__":
+    if not_got_account():
+        create_account()
+    logged_in_user = login()
+    menu(logged_in_user)
     
